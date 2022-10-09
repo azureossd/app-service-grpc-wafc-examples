@@ -7,7 +7,7 @@ const PROTO_PATH = "./greeter.proto";
 const EXPRESS_PORT = process.env.EXPRESS_PORT || 3000;
 const GRPC_PORT = process.env.GRPC_PORT || 50051;
 const HOST = process.env.HOST || "localhost";
-const SERVER_DEFINITION = `${HOST}:${GRPC_PORT}`;
+const GRPC_SERVER_DEFINITION = `${HOST}:${GRPC_PORT}`;
 
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   keepCase: true,
@@ -39,17 +39,17 @@ const main = () => {
   const server = new grpc.Server();
   server.addService(greeter_proto.Greeter.service, { sayHello: sayHello });
   server.bindAsync(
-    `${SERVER_DEFINITION}`,
+    `${GRPC_SERVER_DEFINITION}`,
     grpc.ServerCredentials.createInsecure(),
     () => {
-      console.log(`Starting gRPC server on ${SERVER_DEFINITION}`);
+      console.log(`Starting gRPC server on ${GRPC_SERVER_DEFINITION}`);
       server.start();
     }
   );
   // Starting an HTTP server to response to App Service Linux's initial container start up pings over HTTP/2
   // Or else the container will never start if this is ONLY set for gRPC requests
   app.listen(EXPRESS_PORT, () => {
-    console.log(`Express is listening on port 3000`);
+    console.log(`Express is listening on ${EXPRESS_PORT}`);
   });
 };
 
