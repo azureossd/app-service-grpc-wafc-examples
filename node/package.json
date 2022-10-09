@@ -1,0 +1,11 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "main": "server.js",
+  "license": "MIT",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.7.1",
+    "express": "^4.18.2",
+    "node-fetch": "^2.6.7"
+  }
+}
