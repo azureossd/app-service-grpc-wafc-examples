@@ -1,4 +1,3 @@
-import logging
 import grpc
 import os
 import greeter_pb2
@@ -11,6 +10,7 @@ from grpc.experimental.aio import init_grpc_aio
 from concurrent import futures
 
 HOST = os.environ.get('HOST')
+routes = web.RouteTableDef()
 
 
 class Greeter(greeter_pb2_grpc.GreeterServicer):
@@ -18,9 +18,10 @@ class Greeter(greeter_pb2_grpc.GreeterServicer):
         return greeter_pb2.HelloReply(message='Hello world, from app-service-grpc-wafc-examples-python-reflection - gRPC')
 
 
-class Index(web.View):
-    async def get(self):
-        return web.Response(text='Hello world, from app-service-grpc-wafc-examples-python-reflection - HTTP')
+@routes.get('/')
+async def index(self):
+    data = { 'msg': 'Hello world, from app-service-grpc-wafc-examples-python-reflection - HTTP' }
+    return web.json_response(data)
 
 
 class Application(web.Application):
@@ -46,10 +47,12 @@ class Application(web.Application):
         return _on_shutdown
 
     def add_routes(self):
-        self.router.add_view('/', Index)
+        return self.router.add_get('/', index)
+
 
     def run(self):
-        return web.run_app(self, host="localhost", port=8000)
+        print(f'HTTP server starting on {HOST}:8000')
+        return web.run_app(self, host=f'{HOST}', port=8000)
 
 
 class GrpcServer():
@@ -82,5 +85,4 @@ application = Application()
 
 
 if __name__ == '__main__':
-    logging.basicConfig()
     application.run()
