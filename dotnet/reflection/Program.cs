@@ -1,4 +1,4 @@
-using noreflection.Services;
+using reflection.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,10 +17,13 @@ builder.WebHost.ConfigureKestrel(options =>
     }); 
 });
 
+builder.Services.AddGrpcReflection();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.MapGrpcService<GreeterService>();
-app.MapGet("/", () => "Hello, from app-service-grpc-wafc-examples-dotnet-noreflection - HTTP");
+// Enable reflection
+app.MapGrpcReflectionService();
+app.MapGet("/", () => "Hello, from app-service-grpc-wafc-examples-dotnet-reflection - HTTP");
 
 app.Run();

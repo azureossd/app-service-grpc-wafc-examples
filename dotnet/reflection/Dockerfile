@@ -15,4 +15,4 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 
 EXPOSE 8080 50051
-ENTRYPOINT ["dotnet", "no-reflection.dll"]
+ENTRYPOINT ["dotnet", "reflection.dll"]

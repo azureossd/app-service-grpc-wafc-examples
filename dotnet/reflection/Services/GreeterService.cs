@@ -1,7 +1,7 @@
 using Grpc.Core;
-using noreflection;
+using reflection;
 
-namespace noreflection.Services;
+namespace reflection.Services;
 
 public class GreeterService : Greeter.GreeterBase
 {
@@ -15,7 +15,7 @@ public class GreeterService : Greeter.GreeterBase
     {
         return Task.FromResult(new HelloReply
         {
-            Message = "Hello, from app-service-grpc-wafc-examples-dotnet-noreflection - gRPC"
+            Message = "Hello, from app-service-grpc-wafc-examples-dotnet-reflection - gRPC"
         });
     }
 }
