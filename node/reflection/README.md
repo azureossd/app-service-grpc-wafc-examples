@@ -1,4 +1,4 @@
-# Node gRPC server reflection
+# Node gRPC server - reflection
 
 At this time, there is no 'official' `@grpc/grpc-js` package that implements reflection. See more [here](https://github.com/grpc/grpc/blob/master/doc/server-reflection.md#known-implementations).
 
