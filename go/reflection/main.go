@@ -9,8 +9,10 @@ import (
 	"net"
 	"net/http"
 
-	pb "github.com/Ajsalemo/app-service-grpc-wafc-examples/proto"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
+
+	pb "github.com/Ajsalemo/app-service-grpc-wafc-examples/proto"
 )
 
 var (
@@ -26,7 +28,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
 	resp := make(map[string]string)
-	resp["message"] = "Hello, from app-service-grpc-wafc-examples-go-no-reflection - HTTP"
+	resp["message"] = "Hello, from app-service-grpc-wafc-examples-go-reflection - HTTP"
 	jsonResp, err := json.Marshal(resp)
 	if err != nil {
 		log.Fatalf("Error happened in JSON marshal. Err: %s", err)
@@ -36,7 +38,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 
 // SayHello implements helloworld.GreeterServer
 func (s *server) SayHello(ctx context.Context, in *pb.Empty) (*pb.HelloReply, error) {
-	return &pb.HelloReply{Message: "Hello, from app-service-grpc-wafc-examples - gRPC"}, nil
+	return &pb.HelloReply{Message: "Hello, from app-service-grpc-wafc-examples-reflection - gRPC"}, nil
 }
 
 func main() {
@@ -58,6 +60,10 @@ func main() {
 	}
 	s := grpc.NewServer()
 	pb.RegisterGreeterServer(s, &server{})
+
+	// Register reflection service on gRPC server.
+	reflection.Register(s)
+	
 	log.Printf("server listening at %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)

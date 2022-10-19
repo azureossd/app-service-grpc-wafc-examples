@@ -26,7 +26,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
 	resp := make(map[string]string)
-	resp["message"] = "Hello, from app-service-grpc-wafc-examples-go-no-reflection - HTTP"
+	resp["message"] = "Hello, from app-service-grpc-wafc-examples - HTTP"
 	jsonResp, err := json.Marshal(resp)
 	if err != nil {
 		log.Fatalf("Error happened in JSON marshal. Err: %s", err)
